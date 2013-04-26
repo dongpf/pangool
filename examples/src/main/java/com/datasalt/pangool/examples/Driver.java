@@ -15,8 +15,7 @@
  */
 package com.datasalt.pangool.examples;
 
-import org.apache.hadoop.util.ProgramDriver;
-
+import com.datasalt.pangool.PangoolDriver;
 import com.datasalt.pangool.examples.gameoflife.GameOfLifeJob;
 import com.datasalt.pangool.examples.movingaverage.MovingAverage;
 import com.datasalt.pangool.examples.movingaverage.MovingAverageGenerateData;
@@ -38,7 +37,7 @@ import com.datasalt.pangool.examples.urlresolution.UrlResolutionGenerateData;
 import com.datasalt.pangool.examples.useractivitynormalizer.UserActivityNormalizer;
 import com.datasalt.pangool.examples.useractivitynormalizer.UserActivityNormalizerGenerateData;
 
-public class Driver extends ProgramDriver {
+public class Driver extends PangoolDriver {
 
 	public Driver() throws Throwable {
 		super();
@@ -69,12 +68,16 @@ public class Driver extends ProgramDriver {
 		//
 		addClass("multi_shakespeare_indexer", MultiShakespeareIndexer.class, "Create four SOLR indexes out of Shakespeare's plays");
 		// 
-//		addClass("hcatalog_integration_test", HCatalogIntegrationTest.class, "Reads an HCatalog table, converts it into Tuples and prints the Tuples to System.out.");
+		addClass("hcatalog_integration_test", HCatalogIntegrationTest.class, "Reads an HCatalog table, converts it into Tuples and prints the Tuples to System.out.");
 	}
 
 	public static void main(String[] args) throws Throwable {
 		Driver driver = new Driver();
-		driver.driver(args);
+    try {
+		  driver.driver(args);
+    } catch (IllegalArgumentException e) {
+      System.exit(1);
+    }
 		System.exit(0);
 	}
 }

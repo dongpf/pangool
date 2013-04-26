@@ -14,43 +14,23 @@
 	<parent>
 		<groupId>com.datasalt.pangool</groupId>
 		<artifactId>pangool-top-level</artifactId>
-		<version>0.50.2-SNAPSHOT</version>
+		<version>0.60.4-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 	<artifactId>pangool-examples</artifactId>
-	<properties>
-		<hadoop.version>0.20.2</hadoop.version>
-        <avro.version>1.6.3</avro.version>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-	</properties>
 
 	<dependencies>
 	
-<!--
 		<dependency>
 			<groupId>org.apache.hcatalog</groupId>
 			<artifactId>hcatalog-core</artifactId>
-			<version>0.5.0-SNAPSHOT</version>
+			<version>0.5.0-incubating</version>
 		</dependency>
--->
 	
 		<dependency>
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava</artifactId>
 			<version>11.0.2</version>
-		</dependency>
-		
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<version>${project.version}</version>
-			<artifactId>pangool-core</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.apache.hadoop</groupId>
-			<artifactId>hadoop-core</artifactId>
-			<version>${hadoop.version}</version>
-			<scope>provided</scope>
 		</dependency>
 
         <dependency>
@@ -133,6 +113,42 @@
     </dependencies>
 
 	<!-- ///////////////// -->
+
+    <profiles>
+
+        <profile>
+            <id>mr1</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <examples.assembly>hadoop</examples.assembly>
+            </properties>
+            <dependencies>
+                <dependency>
+                    <groupId>${project.groupId}</groupId>
+                    <version>${project.version}</version>
+                    <artifactId>pangool-core</artifactId>
+                </dependency>
+            </dependencies>
+        </profile>
+
+        <profile>
+            <id>mr2</id>
+            <properties>
+                <examples.assembly>hadoop-mr${hadoop.version}</examples.assembly>
+            </properties>
+            <dependencies>
+                <dependency>
+                    <groupId>${project.groupId}</groupId>
+                    <version>${project.version}</version>
+                    <classifier>mr${hadoop.version}</classifier>
+                    <artifactId>pangool-core</artifactId>
+                </dependency>
+            </dependencies>
+        </profile>
+
+    </profiles>
 
 	<!-- Build Settings -->
 
